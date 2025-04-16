@@ -3,9 +3,15 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser'
 import cors from 'cors';
-import routes from './routes.js';
+// import routes from './routes.js';
+import connectDB from './config/db.js';
+import authRoutes from './routes/authRoutes.js'
+import requestRoutes from './routes/requestRoutes.js'
+import disasterRoutes from './routes/disasterRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config();
+connectDB();
 
 const app = express();
 const PORT = 5000;
@@ -20,13 +26,12 @@ app.use(cors({
 }));
 
 
+app.use('/auth', authRoutes);
+app.use('/request', requestRoutes)
+app.use('/disaster', disasterRoutes)
+app.use('/user', userRoutes)
 
-mongoose.connect(process.env.MONGO)
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.error(err));
-
-
-app.use ("/",routes)
+// app.use ("/",routes)
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
