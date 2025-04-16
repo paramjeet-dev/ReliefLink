@@ -3,25 +3,24 @@ import bcrypt from 'bcrypt';
 import generateToken from '../utils/generateToken.js';
 
 export const registerUser = async (req, res) => {
-  const { name, email, password, phone, role, } = req.body;
-
-  const userExists = await User.findOne({ email });
+  const { name, email, password, phone, role,pin } = req.body;
+  const userExists = await User.findOne({ email:email });
   if (userExists) return res.json({ error: 'Email already exists' });
 
   const hashedPassword = await bcrypt.hash(password,10)
   const user = await User.insertOne({ name:name, email:email, password:hashedPassword, phone:phone, role:role, pincode:pin });
 
-  res.json({
+  await res.json({
     _id: user._id,
     name: user.name,
     message:"User Registered"
   });
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser = async(req, res) => {
   const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email:email });
+  console.log(user)
   if (!user || !(await bcrypt.compare(password,user.password))) {
     return res.json({ error: 'Invalid email or password' });
   }
@@ -31,6 +30,7 @@ export const loginUser = async (req, res) => {
   res.json({
     _id: user._id,
     name: user.name,
+    role:user.role,
     message:"Logged in"
   });
 };

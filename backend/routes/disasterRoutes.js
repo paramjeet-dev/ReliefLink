@@ -1,8 +1,10 @@
 import express from 'express'
-import { getUpi } from '../controller/disasterController'
+import { getUpi, create,getAllDisasters} from '../controller/disasterController.js'
 
 const router = express.Router();
 
-router.post('/upi:id', getUpi);
+router.get('/upi/:id', getUpi);
+router.post('/create',create)
+router.get('/all',getAllDisasters)
 
 export default router;
