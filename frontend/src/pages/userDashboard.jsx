@@ -133,12 +133,12 @@ const UserDashboard = () => {
         const lon = position.coords.longitude;
 
         const mlPayload = {
-          lat,
-          lon,
-          description: data.description,
-          pinCode: pincode,
-          type: 'hilly',
-          affected: data.affected,
+          "Latitude":lat,
+          "Longitude":lon,
+          "Description": data.description,
+          "Pincode": pincode,
+          "Location_Type": 'hilly',
+          "People_Trapped": data.affected,
         };
 
         const mlRes = await fetch('http://localhost:5001/predict', {
@@ -148,6 +148,7 @@ const UserDashboard = () => {
         });
 
         const mlData = await mlRes.json();
+        console.log(mlData)
         const priority = mlData.priority || 'normal';
 
         const finalPayload = {
@@ -158,7 +159,7 @@ const UserDashboard = () => {
           status: 'pending',
           area: location,
           affected: data.affected,
-          priority,
+          priority:priority,
         };
 
         const response = await fetch('http://localhost:5000/request/create', {
