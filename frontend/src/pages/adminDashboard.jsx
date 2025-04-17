@@ -100,15 +100,20 @@ const AdminDashboard = () => {
   };
 
   const handleAlertAllUsers = () => {
-    fetch("http://localhost:5000/user/alert", {
-      method: "POST",
+    Notification.requestPermission().then((permission) =>{
+      if (permission === "granted")
+        new Notification("demo")
     })
-      .then((res) => res.json())
-      .then(() => toast.success("Alert sent to all users!"))
-      .catch((err) => {
-        console.error("Alert send error:", err);
-        toast.error("Failed to send alert.");
-      });
+    
+    // fetch("http://localhost:5000/user/alert", {
+    //   method: "POST",
+    // })
+    //   .then((res) => res.json())
+    //   .then(() => toast.success("Alert sent to all users!"))
+    //   .catch((err) => {
+    //     console.error("Alert send error:", err);
+    //     toast.error("Failed to send alert.");
+    //   });
   };
 
   // Calculate total expense
