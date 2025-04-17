@@ -12,7 +12,8 @@ const requestSchema = new mongoose.Schema({
     disasterType: { type: String, required: true },
     status: { type: String, required: true ,default:'pending'},
     priority: { type: String},
-    area:{type:String}
+    area:{type:String},
+    affected:{type:Number}
 }, { timestamps: true });
 
 export default mongoose.model('helpRequest', requestSchema);
